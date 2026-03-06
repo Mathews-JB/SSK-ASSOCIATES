@@ -1,0 +1,263 @@
+/* ================================================================
+   SSK ASSOCIATES — ANIMATIONS
+   Smooth micro-animations and architectural line effects
+   ================================================================ */
+
+/* ==================== BLUEPRINT LINE ANIMATIONS ==================== */
+@keyframes drawLine {
+    0% { stroke-dashoffset: 1000; }
+    100% { stroke-dashoffset: 0; }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+@keyframes shimmer {
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
+}
+
+/* ==================== BLUEPRINT CANVAS LINES ==================== */
+.blueprint-line {
+    position: absolute;
+    stroke: rgba(0, 209, 209, 0.08);
+    stroke-width: 1;
+    fill: none;
+    stroke-dasharray: 200;
+    animation: blueprintDraw 4s ease-in-out infinite alternate;
+}
+
+@keyframes blueprintDraw {
+    0% { stroke-dashoffset: 200; opacity: 0.3; }
+    50% { stroke-dashoffset: 0; opacity: 0.8; }
+    100% { stroke-dashoffset: -200; opacity: 0.3; }
+}
+
+/* ==================== PARTICLE EFFECTS ==================== */
+.particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: var(--accent-cyan);
+    border-radius: 50%;
+    opacity: 0;
+    animation: particleFloat linear infinite;
+}
+
+@keyframes particleFloat {
+    0% {
+        opacity: 0;
+        transform: translateY(0) rotate(0deg);
+    }
+    10% {
+        opacity: 0.6;
+    }
+    90% {
+        opacity: 0.6;
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-100vh) rotate(720deg);
+    }
+}
+
+/* ==================== HOVER EFFECTS ==================== */
+.hover-lift {
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1),
+                box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.hover-lift:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* ==================== REVEAL ANIMATIONS ==================== */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.reveal.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ==================== COUNTER ANIMATION ==================== */
+.counter-animate {
+    transition: all 0.3s ease;
+}
+
+/* ==================== ARCHITECTURAL GRID PATTERN ==================== */
+.arch-grid-pattern {
+    background-image:
+        linear-gradient(rgba(0, 209, 209, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 209, 209, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    animation: gridSlide 20s linear infinite;
+}
+
+@keyframes gridSlide {
+    0% { background-position: 0 0; }
+    100% { background-position: 40px 40px; }
+}
+
+/* ==================== MAGNETIC ELEMENT ==================== */
+.magnetic-element {
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* ==================== GLOW PULSE ==================== */
+.glow-pulse {
+    animation: glowPulse 3s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+    0%, 100% {
+        box-shadow: 0 0 20px rgba(224, 33, 33, 0.2);
+    }
+    50% {
+        box-shadow: 0 0 40px rgba(224, 33, 33, 0.4);
+    }
+}
+
+/* ==================== TEXT REVEAL ==================== */
+.text-reveal {
+    overflow: hidden;
+    display: inline-block;
+}
+
+.text-reveal span {
+    display: inline-block;
+    transform: translateY(100%);
+    animation: textReveal 0.8s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+}
+
+@keyframes textReveal {
+    to { transform: translateY(0); }
+}
+
+/* ==================== STAGGER CHILDREN ==================== */
+.stagger-children > * {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.stagger-children.animate > *:nth-child(1) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
+.stagger-children.animate > *:nth-child(2) { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
+.stagger-children.animate > *:nth-child(3) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
+.stagger-children.animate > *:nth-child(4) { transition-delay: 0.4s; opacity: 1; transform: translateY(0); }
+.stagger-children.animate > *:nth-child(5) { transition-delay: 0.5s; opacity: 1; transform: translateY(0); }
+.stagger-children.animate > *:nth-child(6) { transition-delay: 0.6s; opacity: 1; transform: translateY(0); }
+
+/* ==================== SMOOTH SCROLL INDICATOR ==================== */
+.scroll-indicator-animate {
+    animation: scrollBounce 1.5s ease-in-out infinite;
+}
+
+@keyframes scrollBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(8px); }
+}
+
+/* ==================== PAGE TRANSITION ==================== */
+.page-transition {
+    position: fixed;
+    inset: 0;
+    background: var(--bg-secondary);
+    z-index: 11000;
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.page-transition.active {
+    transform: scaleY(1);
+    transform-origin: top;
+}
+
+/* ==================== BORDER ANIMATION ==================== */
+.animated-border {
+    position: relative;
+}
+
+.animated-border::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        transparent, 
+        var(--accent-red), 
+        var(--accent-cyan), 
+        transparent
+    );
+    background-size: 200% 100%;
+    animation: borderFlow 3s ease-in-out infinite;
+}
+
+@keyframes borderFlow {
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
+}
+
+/* ==================== LOADING SKELETON ==================== */
+.skeleton {
+    background: linear-gradient(
+        90deg,
+        var(--bg-card) 25%,
+        var(--bg-tertiary) 50%,
+        var(--bg-card) 75%
+    );
+    background-size: 200% 100%;
+    animation: skeleton 1.5s ease-in-out infinite;
+}
+
+@keyframes skeleton {
+    0% { background-position: 200% center; }
+    100% { background-position: -200% center; }
+}
