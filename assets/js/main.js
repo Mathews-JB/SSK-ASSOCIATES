@@ -83,23 +83,32 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Handle mobile dropdown toggle
-  const hasDropdownLinks = document.querySelectorAll(".nav-link.has-dropdown");
-  hasDropdownLinks.forEach((link) => {
-    link.addEventListener("click", (e) => {
+  const dropdownToggleParents = document.querySelectorAll(".nav-item-dropdown");
+  dropdownToggleParents.forEach((parent) => {
+    const link = parent.querySelector(".nav-link.has-dropdown");
+    const chevron = parent.querySelector("i.fas.fa-chevron-down");
+    const dropdown = parent.querySelector(".nav-dropdown");
+
+    const toggleDropdown = (e) => {
       if (window.innerWidth < 1024) {
-        e.preventDefault();
-        const dropdown = link.nextElementSibling;
-        if (dropdown) {
-          dropdown.classList.toggle("open");
-          link.classList.toggle("active");
-        }
+        if (e) e.preventDefault();
+        if (dropdown) dropdown.classList.toggle("open");
+        if (link) link.classList.toggle("active");
       }
-    });
+    };
+
+    if (link) link.addEventListener("click", toggleDropdown);
+    if (chevron) chevron.addEventListener("click", toggleDropdown);
   });
 
   // Close mobile nav on link click
-  navLinkItems.forEach((link) => {
+  const allNavLinks = document.querySelectorAll(".nav-link, .dropdown-link");
+  allNavLinks.forEach((link) => {
     link.addEventListener("click", () => {
+      // Don't close if it's a dropdown trigger on mobile
+      if (window.innerWidth < 1024 && link.classList.contains("has-dropdown")) {
+        return;
+      }
       navToggle.classList.remove("active");
       navLinks.classList.remove("open");
       document.body.style.overflow = "";
