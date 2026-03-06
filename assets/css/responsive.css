@@ -467,15 +467,16 @@
     }
 
     .footer-grid {
-        grid-template-columns: 1fr;
-        gap: 25px;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px 20px;
         text-align: center;
         padding: 30px 20px;
-        max-width: 400px;
+        max-width: 500px;
         margin: 0 auto;
     }
 
-    .footer-brand {
+    .footer-brand, .footer-contact-col {
+        grid-column: 1 / -1;
         margin-bottom: 10px;
     }
 
@@ -488,6 +489,10 @@
     .footer-heading::after {
         left: 50%;
         transform: translateX(-50%);
+    }
+
+    .footer-links-col {
+        text-align: center;
     }
 
     .footer-links a {
