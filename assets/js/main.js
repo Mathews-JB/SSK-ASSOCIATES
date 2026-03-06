@@ -82,6 +82,21 @@ document.addEventListener("DOMContentLoaded", () => {
       : "";
   });
 
+  // Handle mobile dropdown toggle
+  const hasDropdownLinks = document.querySelectorAll(".nav-link.has-dropdown");
+  hasDropdownLinks.forEach((link) => {
+    link.addEventListener("click", (e) => {
+      if (window.innerWidth < 1024) {
+        e.preventDefault();
+        const dropdown = link.nextElementSibling;
+        if (dropdown) {
+          dropdown.classList.toggle("open");
+          link.classList.toggle("active");
+        }
+      }
+    });
+  });
+
   // Close mobile nav on link click
   navLinkItems.forEach((link) => {
     link.addEventListener("click", () => {
