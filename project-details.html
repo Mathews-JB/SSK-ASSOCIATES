@@ -146,23 +146,7 @@
             <div class="gallery-slider-wrapper">
                 <button class="gallery-nav-btn gallery-nav-prev" id="prevGallery"><i class="fas fa-chevron-left"></i></button>
                 <div class="gallery-slider-track" id="galleryTrack">
-                    <!-- Standard placeholder images that look professional -->
-                    <div class="gallery-slide" onclick="viewQuickProject('Site Perspective', 'assets/images/projects/commercial.png', 'Lusaka', 'Commercial')">
-                        <img src="assets/images/projects/commercial.png" alt="Gallery Image 1">
-                        <div class="gallery-overlay"><i class="fas fa-search-plus"></i></div>
-                    </div>
-                    <div class="gallery-slide" onclick="viewQuickProject('Main Entrance', 'assets/images/projects/residential.png', 'Lusaka', 'Residential')">
-                        <img src="assets/images/projects/residential.png" alt="Gallery Image 2">
-                        <div class="gallery-overlay"><i class="fas fa-search-plus"></i></div>
-                    </div>
-                    <div class="gallery-slide" onclick="viewQuickProject('Interior Lounge', 'assets/images/projects/institutional.png', 'Ndola', 'Institutional')">
-                        <img src="assets/images/projects/institutional.png" alt="Gallery Image 3">
-                        <div class="gallery-overlay"><i class="fas fa-search-plus"></i></div>
-                    </div>
-                    <div class="gallery-slide" onclick="viewQuickProject('Urban Landscape', 'assets/images/projects/urban.png', 'Kitwe', 'Urban')">
-                        <img src="assets/images/projects/urban.png" alt="Gallery Image 4">
-                        <div class="gallery-overlay"><i class="fas fa-search-plus"></i></div>
-                    </div>
+                    <!-- Dynamically populated by JavaScript -->
                 </div>
                 <button class="gallery-nav-btn gallery-nav-next" id="nextGallery"><i class="fas fa-chevron-right"></i></button>
             </div>
@@ -174,8 +158,10 @@
     (function() {
         var params = new URLSearchParams(window.location.search);
         var img = params.get("img");
-        var title = params.get("title");
-        var cat = params.get("cat");
+        var title = params.get("title") || "Featured Project";
+        var cat = params.get("cat") || "Architecture";
+        
+        // 1. Populate Hero & Breadcrumbs
         if(img) {
             var heroImg = document.getElementById("detailHeroImg");
             var secImg = document.getElementById("detailSecondaryImg");
@@ -191,6 +177,42 @@
             var sectorEl = document.getElementById("detailSector");
             if(catEl) catEl.textContent = cat + " Portfolio";
             if(sectorEl) sectorEl.textContent = cat;
+        }
+
+        // 2. Populate Gallery with "Same Building" Views
+        var galleryTrack = document.getElementById("galleryTrack");
+        if(galleryTrack && img) {
+            // We use the same set of images but label them as specific views for this project
+            // In a real app, these would be unique image files like commercial_1.jpg, etc.
+            var views = [
+                { label: "Main Perspective", img: img },
+                { label: "Modern Entrance", img: "urban.png" },
+                { label: "Structural Layout", img: "institutional.png" },
+                { label: "Interior Concept", img: "residential.png" },
+                { label: "Night Vision", img: "sustainable.png" }
+            ];
+
+            // Clear placeholder items
+            galleryTrack.innerHTML = "";
+
+            views.forEach(function(view) {
+                var slide = document.createElement("div");
+                slide.className = "gallery-slide";
+                slide.onclick = function() {
+                    viewQuickProject(view.label, "assets/images/projects/" + view.img, "Lusaka", cat);
+                };
+
+                slide.innerHTML = `
+                    <img src="assets/images/projects/${view.img}" alt="${view.label}">
+                    <div class="gallery-overlay">
+                        <div style="text-align:center;">
+                            <i class="fas fa-search-plus"></i>
+                            <p style="color:#fff; font-size:10px; margin-top:5px; text-transform:uppercase; letter-spacing:1px;">${view.label}</p>
+                        </div>
+                    </div>
+                `;
+                galleryTrack.appendChild(slide);
+            });
         }
     })();
     </script>

@@ -91,22 +91,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if(galleryTrack && prevBtn && nextBtn) {
         let currentIdx = 0;
-        const slides = galleryTrack.querySelectorAll('.gallery-slide');
         const gap = 20;
 
         function updateGallery() {
-            const slideWidth = slides[0].offsetWidth;
+            const currentSlides = galleryTrack.querySelectorAll('.gallery-slide');
+            if(currentSlides.length === 0) return;
+            const slideWidth = currentSlides[0].offsetWidth || 0;
             const move = currentIdx * (slideWidth + gap);
             galleryTrack.style.transform = `translateX(-${move}px)`;
         }
 
         nextBtn.addEventListener('click', () => {
+            const currentSlides = galleryTrack.querySelectorAll('.gallery-slide');
+            if(currentSlides.length === 0) return;
+
             // Determine how many slides are visible based on screen width
             let visibleSlides = 3;
             if(window.innerWidth < 992) visibleSlides = 2;
             if(window.innerWidth < 576) visibleSlides = 1;
 
-            if(currentIdx < slides.length - visibleSlides) {
+            if(currentIdx < currentSlides.length - visibleSlides) {
                 currentIdx++;
                 updateGallery();
             } else {
@@ -117,6 +121,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         prevBtn.addEventListener('click', () => {
+            const currentSlides = galleryTrack.querySelectorAll('.gallery-slide');
+            if(currentSlides.length === 0) return;
+
             if(currentIdx > 0) {
                 currentIdx--;
                 updateGallery();
@@ -125,13 +132,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 let visibleSlides = 3;
                 if(window.innerWidth < 992) visibleSlides = 2;
                 if(window.innerWidth < 576) visibleSlides = 1;
-                currentIdx = slides.length - visibleSlides;
+                currentIdx = Math.max(0, currentSlides.length - visibleSlides);
                 updateGallery();
             }
         });
 
         // Resize handler
         window.addEventListener('resize', updateGallery);
+        
+        // Initial update after a small delay to allow dynamic population
+        setTimeout(updateGallery, 100);
     }
 
 });
