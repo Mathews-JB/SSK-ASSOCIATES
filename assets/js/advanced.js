@@ -84,6 +84,56 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // 6. Project Gallery Slider Logic
+    const galleryTrack = document.getElementById('galleryTrack');
+    const prevBtn = document.getElementById('prevGallery');
+    const nextBtn = document.getElementById('nextGallery');
+
+    if(galleryTrack && prevBtn && nextBtn) {
+        let currentIdx = 0;
+        const slides = galleryTrack.querySelectorAll('.gallery-slide');
+        const gap = 20;
+
+        function updateGallery() {
+            const slideWidth = slides[0].offsetWidth;
+            const move = currentIdx * (slideWidth + gap);
+            galleryTrack.style.transform = `translateX(-${move}px)`;
+        }
+
+        nextBtn.addEventListener('click', () => {
+            // Determine how many slides are visible based on screen width
+            let visibleSlides = 3;
+            if(window.innerWidth < 992) visibleSlides = 2;
+            if(window.innerWidth < 576) visibleSlides = 1;
+
+            if(currentIdx < slides.length - visibleSlides) {
+                currentIdx++;
+                updateGallery();
+            } else {
+                // Bounce effect or loop
+                currentIdx = 0;
+                updateGallery();
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if(currentIdx > 0) {
+                currentIdx--;
+                updateGallery();
+            } else {
+                // Loop to end
+                let visibleSlides = 3;
+                if(window.innerWidth < 992) visibleSlides = 2;
+                if(window.innerWidth < 576) visibleSlides = 1;
+                currentIdx = slides.length - visibleSlides;
+                updateGallery();
+            }
+        });
+
+        // Resize handler
+        window.addEventListener('resize', updateGallery);
+    }
+
 });
 
 // 3. Before & After Slider Logic
