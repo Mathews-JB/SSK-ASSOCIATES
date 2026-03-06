@@ -661,6 +661,50 @@
     overflow: hidden;
     border-radius: 20px;
     border: 1px solid rgba(255,255,255,0.1);
+    background: #000;
+}
+.ba-modal-inner {
+    padding: 30px 20px;
+    text-align: center;
+}
+.ba-modal-inner .modal-title {
+    font-family: var(--font-heading);
+    color: #fff;
+    margin-bottom: 25px;
+    font-size: 24px;
+}
+.ba-modal-inner .ba-slider-container {
+    height: 60vh;
+    margin: 0 auto;
+}
+.modal-info-footer {
+    margin-top: 25px;
+    color: var(--text-gray);
+    font-size: 13px;
+}
+.modal-info-footer i {
+    color: var(--accent-cyan);
+    margin-right: 8px;
+}
+@media (max-width: 768px) {
+    .ba-slider-container {
+        height: 60vh;
+    }
+    .ba-label {
+        font-size: 10px;
+        padding: 4px 10px;
+        top: 10px;
+    }
+    .ba-label-before {
+        left: 10px;
+    }
+    .ba-label-after {
+        right: 10px;
+    }
+    .ba-modal-inner .modal-title {
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
 }
 .ba-image {
     position: absolute;

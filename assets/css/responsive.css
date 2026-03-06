@@ -734,6 +734,31 @@
         width: 42px;
         height: 42px;
     }
+
+    /* Transformation Slider Mobile Fixes */
+    .ba-label {
+        font-size: 10px !important;
+        padding: 4px 10px !important;
+        top: 10px !important;
+    }
+    .ba-label-before { left: 10px !important; }
+    .ba-label-after { right: 10px !important; }
+    
+    .ba-modal-content {
+        width: 95% !important;
+        margin: 10px auto !important;
+    }
+    .ba-modal-inner {
+        padding: 20px 15px !important;
+    }
+    .ba-modal-inner .modal-title {
+        font-size: 18px !important;
+        margin-bottom: 15px !important;
+    }
+    .ba-modal-inner .ba-slider-container {
+        height: 50vh !important;
+        min-height: 300px !important;
+    }
 }
 
 /* ==================== REDUCED MOTION ==================== */

@@ -112,26 +112,27 @@ document.addEventListener('DOMContentLoaded', () => {
     window.viewTransformation = function(title, afterImg, beforeImg) {
         if(!baModal || !baModalBody) return;
 
-        baModalBody.innerHTML = '<div style="padding: 40px; text-align: center;">' +
-            '<h2 style="font-family:var(--font-heading); color:#fff; margin-bottom:30px;">' + title + ' Transformation</h2>' +
-            '<div class="ba-slider-container glass-panel" style="margin: 0 auto; height: 60vh;">' +
-                '<div class="ba-image ba-image-after">' +
-                    '<img src="' + afterImg + '" alt="After Project">' +
-                    '<span class="ba-label ba-label-after">After</span>' +
-                '</div>' +
-                '<div class="ba-image ba-image-before">' +
-                    '<img src="' + beforeImg + '" alt="Before Project" style="filter: grayscale(80%) brightness(0.7);">' +
-                    '<span class="ba-label ba-label-before">Before</span>' +
-                '</div>' +
-                '<input type="range" min="0" max="100" value="50" class="ba-slider-input" oninput="updateSlider(this)">' +
-                '<div class="ba-slider-line">' +
-                    '<div class="ba-slider-thumb"><i class="fas fa-arrows-alt-h"></i></div>' +
-                '</div>' +
-            '</div>' +
-            '<div style="margin-top: 30px; color: var(--text-gray); font-size: 0.9rem;">' +
-                '<p><i class="fas fa-info-circle" style="margin-right: 8px;"></i> Drag the slider to compare original site against completed project.</p>' +
-            '</div>' +
-        '</div>';
+        baModalBody.innerHTML = `
+            <div class="ba-modal-inner">
+                <h2 class="modal-title">${title} Transformation</h2>
+                <div class="ba-slider-container glass-panel">
+                    <div class="ba-image ba-image-after">
+                        <img src="${afterImg}" alt="After Project">
+                        <span class="ba-label ba-label-after">After</span>
+                    </div>
+                    <div class="ba-image ba-image-before">
+                        <img src="${beforeImg}" alt="Before Project" style="filter: grayscale(80%) brightness(0.7);">
+                        <span class="ba-label ba-label-before">Before</span>
+                    </div>
+                    <input type="range" min="0" max="100" value="50" class="ba-slider-input" oninput="updateSlider(this)">
+                    <div class="ba-slider-line">
+                        <div class="ba-slider-thumb"><i class="fas fa-arrows-alt-h"></i></div>
+                    </div>
+                </div>
+                <div class="modal-info-footer">
+                    <p><i class="fas fa-info-circle"></i> Drag the slider to compare original site against completed project.</p>
+                </div>
+            </div>`;
 
         baModal.classList.add('active');
         document.body.style.overflow = 'hidden';
