@@ -1897,7 +1897,7 @@ a {
 /* ==================== FOOTER ==================== */
 .site-footer {
   background: var(--bg-secondary);
-  padding: 80px 0 0;
+  padding: 40px 0 0;
   position: relative;
   overflow: hidden;
   border-top: 1px solid var(--border-color);
@@ -1916,15 +1916,15 @@ a {
 .footer-grid {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1.5fr;
-  gap: 50px;
-  padding-bottom: 50px;
+  gap: 30px;
+  padding-bottom: 30px;
 }
 
 .footer-logo {
   display: flex;
   align-items: baseline;
   gap: 8px;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 .footer-logo .logo-mark {
@@ -1945,10 +1945,10 @@ a {
 }
 
 .footer-desc {
-  font-size: 15px;
+  font-size: 14px;
   color: var(--text-gray);
-  line-height: 1.7;
-  margin-bottom: 24px;
+  line-height: 1.5;
+  margin-bottom: 15px;
 }
 
 .footer-social {
@@ -1978,12 +1978,12 @@ a {
 
 .footer-heading {
   font-family: var(--font-heading);
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
   color: var(--text-white);
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   position: relative;
-  padding-bottom: 12px;
+  padding-bottom: 10px;
 }
 
 .footer-heading::after {
@@ -2001,7 +2001,7 @@ a {
 }
 
 .footer-links li {
-  margin-bottom: 10px;
+  margin-bottom: 6px;
 }
 
 .footer-links a {
@@ -2032,7 +2032,7 @@ a {
 .footer-contact-info {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
 }
 
 .contact-item {
@@ -2049,7 +2049,7 @@ a {
 }
 
 .footer-bottom {
-  padding: 20px 0;
+  padding: 15px 0;
 }
 
 .footer-line {
