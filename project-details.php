@@ -1,10 +1,34 @@
+<?php
+require_once('includes/db.php');
+
+$id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+$project = null;
+
+if ($id) {
+    $stmt = $conn->prepare("SELECT * FROM projects WHERE id = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows == 1) {
+        $project = $result->fetch_assoc();
+    } else {
+        header('Location: projects.php');
+        exit();
+    }
+} else {
+    // Fallback if ID is missing (maybe it's still using the old URL style)
+    // Actually, user wants it fully dynamic now.
+    header('Location: projects.php');
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="SSK Associates Ltd — Architecture and project management firm in Zambia.">
-    <title>SSK Associates Ltd | About</title>
+    <title><?php echo htmlspecialchars($project['title']); ?> | SSK Associates Ltd</title>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,7 +47,7 @@
     <link rel="stylesheet" href="assets/css/glassmorphism.css">
     <link rel="stylesheet" href="assets/css/responsive.css">
 </head>
-<body class="page-about">
+<body class="page-project-details">
     <!-- Preloader -->
     <div id="preloader">
         <div class="preloader-inner">
@@ -46,11 +70,11 @@
                 <span class="logo-name">ASSOCIATES</span>
             </a>
             <div class="nav-links" id="navLinks">
-                <a href="index.php" class="nav-link">Home</a>
-                <a href="about.html" class="nav-link active">About</a>
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="about.html" class="nav-link">About</a>
                 <a href="services.html" class="nav-link">Services</a>
                 <div class="nav-item-dropdown">
-                    <a href="projects.php" class="nav-link has-dropdown">Projects</a>
+                    <a href="projects.php" class="nav-link active has-dropdown">Projects</a>
                     <div class="nav-dropdown">
                         <a href="projects.php" class="dropdown-link">Portfolio Overview</a>
                         <a href="index.html#transformations" class="dropdown-link">Transformation Highlights</a>
@@ -68,43 +92,68 @@
             </button>
         </div>
     </nav>
-    </nav>
+
     <main class="page-transition-wrapper">
-
-
-    <div class="page-hero">
-        <div class="page-hero-bg" style="background-image: url('assets/images/projects/urban.png')"></div>
-        <div class="page-hero-content" data-aos="fade-up">
-            <div class="section-label justify-center"><span class="label-line"></span><span class="label-text">Our Story</span><span class="label-line"></span></div>
-            <h1 class="page-hero-title">About <span class="text-accent">SSK Associates</span></h1>
-            <p class="page-hero-subtitle">Building meaningful spaces with discipline, transparency, and innovation.</p>
+    <div class="project-detail-hero">
+        <img id="detailHeroImg" src="assets/images/projects/<?php echo $project['image']; ?>" alt="<?php echo htmlspecialchars($project['title']); ?>">
+        <div class="project-detail-header" data-aos="fade-up">
+            <div class="section-label"><span class="label-line"></span><span class="label-text" style="color:#FFF;" id="detailCatLabel"><?php echo ucfirst($project['category']); ?> Portfolio</span></div>
+            <h1 class="page-hero-title text-white" id="detailTitle"><?php echo htmlspecialchars($project['title']); ?></h1>
         </div>
     </div>
     
-    <section class="about-section glass-panel" style="margin: 0 5%; border-radius: 24px; position:relative; top: -50px; z-index: 10;">
-        <div class="container">
-            <div class="about-grid">
-                <div class="about-content" data-aos="fade-right">
-                    <h2 class="section-title">Driven by <span class="text-accent">Vision</span></h2>
-                    <p class="about-lead">Every project begins with an idea — a need, a vision, a possibility.</p>
-                    <p class="about-text">SSK Associates was created to help turn those ideas into practical, well-managed, and sustainable spaces that serve people and communities across Zambia.</p>
-                    <p class="about-text">We are passionate about thoughtful design, disciplined project delivery, and doing things the right way.</p>
-                    <div class="about-features stagger-children" style="flex-wrap: wrap;">
-                        <div class="feature-item glass-card" style="padding: 15px 25px;"><div class="feature-icon"><i class="fas fa-drafting-compass"></i></div><span>Innovative Design</span></div>
-                        <div class="feature-item glass-card" style="padding: 15px 25px;"><div class="feature-icon"><i class="fas fa-leaf"></i></div><span>Sustainable Approach</span></div>
-                    </div>
+    <div class="container">
+        <div class="project-stats-glass glass-panel" data-aos="fade-up" data-aos-delay="200">
+            <div class="stat-box">
+                <span class="label">Location</span>
+                <span class="value"><?php echo htmlspecialchars($project['location']); ?></span>
+            </div>
+            <div class="stat-box">
+                <span class="label">Client</span>
+                <span class="value">SSK Associates Ltd</span>
+            </div>
+            <div class="stat-box">
+                <span class="label">Year</span>
+                <span class="value"><?php echo htmlspecialchars($project['year']); ?></span>
+            </div>
+            <div class="stat-box">
+                <span class="label">Size</span>
+                <span class="value"><?php echo htmlspecialchars($project['size']); ?></span>
+            </div>
+            <div class="stat-box">
+                <span class="label">Services</span>
+                <span class="value">Architecture, Management</span>
+            </div>
+        </div>
+
+        <div class="project-content-grid">
+            <div class="project-text" data-aos="fade-right">
+                <h2>Project Overview</h2>
+                <?php echo nl2br(htmlspecialchars($project['description'])); ?>
+                
+                <div style="margin-top: 40px;">
+                    <img id="detailSecondaryImg" src="assets/images/projects/<?php echo $project['image']; ?>" class="glass-panel" style="width:100%; border-radius:16px; padding:10px;" alt="Secondary image">
                 </div>
-                <div class="about-visual" data-aos="fade-left">
-                    <div class="about-image-wrapper glass-panel" style="padding: 15px;">
-                        <img src="assets/images/hero-building.png" alt="Architecture" class="about-image" style="height: 450px;">
+            </div>
+            
+            <div class="project-sidebar" data-aos="fade-left">
+                <div class="glass-panel">
+                    <h3 style="font-family: var(--font-heading); color: var(--text-white); margin-bottom: 20px;">Project Details</h3>
+                    <ul class="sidebar-list">
+                        <li><span class="list-label">Sector</span> <span class="list-val" id="detailSector"><?php echo ucfirst($project['category']); ?></span></li>
+                        <li><span class="list-label">Status</span> <span class="list-val">Completed</span></li>
+                        <li><span class="list-label">Location</span> <span class="list-val"><?php echo $project['location']; ?></span></li>
+                        <li><span class="list-label">Completion</span> <span class="list-val"><?php echo $project['year']; ?></span></li>
+                    </ul>
+                    <div style="margin-top: 30px; text-align: center;">
+                        <a href="projects.php" class="btn btn-outline" style="width: 100%; justify-content:center;">Back to Portfolio</a>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-    
-
+    </div>
     </main>
+
     <!-- Footer -->
     <footer id="footer" class="site-footer">
         <div class="footer-blueprint-lines"></div>
@@ -128,19 +177,9 @@
                     <ul class="footer-links">
                         <li><a href="about.html">About Us</a></li>
                         <li><a href="services.html">Services</a></li>
-                        <li><a href="projects.html">Projects</a></li>
+                        <li><a href="projects.php">Projects</a></li>
                         <li><a href="team.html">Our Team</a></li>
                         <li><a href="contact.html">Contact</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-links-col" data-aos="fade-up" data-aos-delay="200">
-                    <h4 class="footer-heading">Services</h4>
-                    <ul class="footer-links">
-                        <li><a href="services.html">Architectural Design</a></li>
-                        <li><a href="services.html">Project Management</a></li>
-                        <li><a href="services.html">Urban Planning</a></li>
-                        <li><a href="services.html">Construction Supervision</a></li>
                     </ul>
                 </div>
 
@@ -167,30 +206,10 @@
                 <div class="footer-line"></div>
                 <div class="footer-bottom-content">
                     <p>&copy; 2026 SSK Associates Ltd. All rights reserved.</p>
-                    <div class="footer-tags">
-                        <span>#SSKAssociates</span>
-                        <span>#ArchitectureZambia</span>
-                    </div>
                 </div>
             </div>
         </div>
     </footer>
-
-    <!-- Glass Modal for Quick View -->
-    <div id="projectModal" class="glass-modal">
-        <div class="glass-modal-content">
-            <button class="glass-modal-close"><i class="fas fa-times"></i></button>
-            <div class="glass-modal-body" id="modalBody"></div>
-        </div>
-    </div>
-
-    <!-- Transformation (Before/After) Modal -->
-    <div id="baModal" class="glass-modal">
-        <div class="glass-modal-content ba-modal-content">
-            <button class="glass-modal-close"><i class="fas fa-times"></i></button>
-            <div class="glass-modal-body ba-modal-body" id="baModalBody"></div>
-        </div>
-    </div>
 
     <button id="backToTop" class="back-to-top glass-btn" aria-label="Back to top">
         <i class="fas fa-arrow-up"></i>
